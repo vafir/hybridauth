@@ -35,6 +35,8 @@ abstract class OAuth2 extends AbstractAdapter implements AdapterInterface
     */
     protected $clientId = '' ;
 
+    protected $clientPublic = '' ;
+
     /**
     * Client Secret
     *
@@ -238,6 +240,7 @@ abstract class OAuth2 extends AbstractAdapter implements AdapterInterface
     */
     protected function configure()
     {
+        $this->clientPublic = $this->config->filter('keys')->get('public') ?: '';
         $this->clientId     = $this->config->filter('keys')->get('id') ?: $this->config->filter('keys')->get('key');
         $this->clientSecret = $this->config->filter('keys')->get('secret');
 

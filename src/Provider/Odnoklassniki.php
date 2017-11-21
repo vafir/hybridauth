@@ -44,15 +44,16 @@ class Odnoklassniki extends OAuth2
             'photo_id', 'pic_1', 'pic_2', 'pic1024x768', 'location', 'email'
         );
 
+        // для получения профиля необходимо передавать публичный ключ, а не id приложения
         $sig = md5(
-            'application_key=' . $this->config->get('keys')['key'] .
+            'application_key=' . $this->config->get('keys')['public'] .
             'fields=' . implode(',', $fields) .
             'method=users.getCurrentUser' .
             md5($this->getStoredData('access_token') . $this->config->get('keys')['secret'])
         );
 
         $parameters = [
-            'application_key' => $this->config->get('keys')['key'],
+            'application_key' => $this->config->get('keys')['public'],
             'method'          => 'users.getCurrentUser',
             'fields'          => implode(',', $fields),
             'sig'             => $sig,
