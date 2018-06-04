@@ -58,20 +58,21 @@ class Vkontakte extends OAuth2
         $parameters = [
             'uid'    => $this->getStoredData('user_id'),
             'fields' => 'first_name,last_name,nickname,screen_name,sex,' .
-                            'bdate,timezone,photo_rec,photo_big,photo_max_orig'
+                            'bdate,timezone,photo_rec,photo_big,photo_max_orig',
+            'v' => 5
         ];
 
         $response = $this->apiRequest('users.get', 'GET', $parameters);
 
         $data = new Data\Collection($response->response[0]);
 
-        if (! $data->exists('uid')) {
+        if (! $data->exists('id')) {
             throw new UnexpectedApiResponseException('Provider API returned an unexpected response.');
         }
 
         $userProfile = new User\Profile();
 
-        $userProfile->identifier  = $data->get('uid');
+        $userProfile->identifier  = $data->get('id');
         $userProfile->email       = $this->getStoredData('email');
         $userProfile->firstName   = $data->get('first_name');
         $userProfile->lastName    = $data->get('last_name');
